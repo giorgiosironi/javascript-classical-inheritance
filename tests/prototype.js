@@ -33,5 +33,18 @@ TestCase("playing with object prototypes in JavaScript", {
         var anObject = new constructor();
         Object.prototype.doSomethingElse = function () {};
         assertEquals(Object.prototype.doSomethingElse, anObject.doSomethingElse);
+    },
+    "test inheritance can be built by substituing prototypes with an object of the parent class" : function () {
+        var animal = function Animal() {};
+        animal.prototype.eat = function() { return 'Yum'; };
+        var dog = function Dog() {};
+        dog.prototype = new animal();
+        dog.prototype.bark = function() { return 'Arf'; };
+        dog.prototype.constructor = dog;
+        var lassie = new dog();
+        assertTrue(lassie instanceof dog);
+        assertEquals('Arf', lassie.bark());
+        assertTrue(lassie instanceof animal);
+        assertEquals('Yum', lassie.eat());
     }
 });
