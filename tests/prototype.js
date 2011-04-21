@@ -21,5 +21,17 @@ TestCase("playing with object prototypes in JavaScript", {
         var constructor = function MyClass() {};
         var anObject = new constructor();
         assertEquals(Object.prototype.toString, anObject.toString);
+    },
+    "test the prototype chain goes from instance to constructor" : function() {
+        var constructor = function MyClass() {};
+        var anObject = new constructor();
+        constructor.prototype.doSomething = function () {};
+        assertEquals(constructor.prototype.doSomething, anObject.doSomething);
+    },
+    "test the prototype chain goes also to Object" : function () {
+        var constructor = function MyClass() {};
+        var anObject = new constructor();
+        Object.prototype.doSomethingElse = function () {};
+        assertEquals(Object.prototype.doSomethingElse, anObject.doSomethingElse);
     }
 });
