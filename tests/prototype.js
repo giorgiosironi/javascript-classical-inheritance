@@ -16,6 +16,7 @@ TestCase("playing with object prototypes in JavaScript", {
         var anObject = new MyClass();
         assertTrue(anObject instanceof MyClass);
         assertEquals(MyClass, anObject.constructor);
+        assertEquals(MyClass.prototype, anObject.__proto__);
     },
     "test objects created with a constructor inherit from Object" : function () {
         function MyClass() {};
@@ -46,5 +47,7 @@ TestCase("playing with object prototypes in JavaScript", {
         assertEquals('Arf', lassie.bark());
         assertTrue(lassie instanceof Animal);
         assertEquals('Yum', lassie.eat());
+        assertEquals(Dog.prototype, lassie.__proto__);
+        assertEquals(Animal.prototype, Dog.prototype.__proto__);
     }
 });
