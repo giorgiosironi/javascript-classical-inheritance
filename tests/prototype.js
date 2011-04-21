@@ -10,5 +10,16 @@ TestCase("playing with object prototypes in JavaScript", {
     "test objects do not have public prototype property" : function () {
         var anObject = {};
         assertUndefined(anObject.prototype);
+    },
+    "test objects created with a constructor has constructor property" : function () {
+        var constructor = function MyClass() {};
+        var anObject = new constructor();
+        assertTrue(anObject instanceof constructor);
+        assertEquals(constructor, anObject.constructor);
+    },
+    "test objects created with a constructor inherit from Object" : function () {
+        var constructor = function MyClass() {};
+        var anObject = new constructor();
+        assertEquals(Object.prototype.toString, anObject.toString);
     }
 });
