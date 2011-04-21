@@ -67,10 +67,15 @@ TestCase("playing with object prototypes in JavaScript", {
         establishInheritance(Collie, Dog);
 
         var lassie = new Collie();
+
         assertTrue(lassie instanceof Collie);
         assertTrue(lassie instanceof Dog);
         assertTrue(lassie instanceof Animal);
         // inherits up to upmost class
         assertEquals('Yum', lassie.eat());
+
+        assertEquals(Collie.prototype, lassie.__proto__);
+        assertEquals(Dog.prototype, Collie.prototype.__proto__);
+        assertEquals(Animal.prototype, Dog.prototype.__proto__);
     }
 });
