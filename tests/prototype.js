@@ -35,7 +35,7 @@ TestCase("playing with object prototypes in JavaScript", {
         Object.prototype.doSomethingElse = function () {};
         assertEquals(Object.prototype.doSomethingElse, anObject.doSomethingElse);
     },
-    "test inheritance can be built by substituing prototypes with an object of the parent class" : function () {
+    "test inheritance can be built by substituting prototypes with an object of the parent class" : function () {
         function Animal() {};
         Animal.prototype.eat = function() { return 'Yum'; };
         function Dog() {};
@@ -49,5 +49,28 @@ TestCase("playing with object prototypes in JavaScript", {
         assertEquals('Yum', lassie.eat());
         assertEquals(Dog.prototype, lassie.__proto__);
         assertEquals(Animal.prototype, Dog.prototype.__proto__);
+    },
+    "test N levels of inheritance can be obtained by making each prototype an object which properties are inferred from parent prototype" : function () {
+        function establishInheritance(childClass, parentClass) {
+            childClass.prototype = new parentClass();
+            childClass.prototype.constructor = childClass;
+        };
+
+        function Animal() {};
+        Animal.prototype.eat = function() { return 'Yum'; };
+
+        function Dog() {};
+        establishInheritance(Dog, Animal);
+        Dog.prototype.bark = function() { return 'Arf'; };
+
+        function Collie() {};
+        establishInheritance(Collie, Dog);
+
+        var lassie = new Collie();
+        assertTrue(lassie instanceof Collie);
+        assertTrue(lassie instanceof Dog);
+        assertTrue(lassie instanceof Animal);
+        // inherits up to upmost class
+        assertEquals('Yum', lassie.eat());
     }
 });
